@@ -9,6 +9,8 @@
   </head>
 
     <div id="container">
+      <%= link_to 'Home', root_url %> | <%= link_to 'HomeWork', root_url %> | Bugs Bunny
+
       <% flash.each do |name, msg| %>
         <%= content_tag :div, msg, :id => "flash_#{name}" %>
       <% end %>

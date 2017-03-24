@@ -1,2 +1,7 @@
 <h1>Welcome</h1>
-<p>Login to continue</p>
+
+<% if session[:user_id].nil? %>
+ <p><%= link_to 'Login', new_session_url %> to continue</p>
+<% else %>
+  <p><%= link_to 'Logout', logout_path %> </p>
+<% end %>
