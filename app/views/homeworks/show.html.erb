@@ -1,0 +1,13 @@
+<h1> <%= @homework.title %> </h1>
+
+Question : <%= @homework.question %>
+
+<p>
+  My Answer :
+</p>
+
+<%= form_tag homeworks_url do %>
+  <%= text_area_tag 'answer', nil, rows: 10, cols: 100 %> <br/>
+  <%= hidden_field_tag 'id', @homework.id %>
+  <%= submit_tag 'Submit' %>
+<% end %>

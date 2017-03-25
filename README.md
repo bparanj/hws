@@ -6,3 +6,8 @@ Iteration 1
 
 Login and logout using user name.
 
+Iteration 2
+
+Student can see all assigned homework.
+
+

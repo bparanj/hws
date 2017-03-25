@@ -9,7 +9,15 @@
   </head>
 
     <div id="container">
-      <%= link_to 'Home', root_url %> | <%= link_to 'HomeWork', root_url %> | Bugs Bunny
+      <%= link_to 'Home', root_url %> | <%= link_to 'HomeWork', root_url %> |
+
+      <% if session[:user_id].nil? %>
+       <%= link_to 'Login', new_session_url %> 
+      <% else %>
+        <%= link_to 'Logout', logout_path %>
+      <% end %> 
+
+      | Bugs Bunny
 
       <% flash.each do |name, msg| %>
         <%= content_tag :div, msg, :id => "flash_#{name}" %>
