@@ -9,10 +9,9 @@ class HomeworksController < ApplicationController
   end
   
   def create
-    logger.info params
     @homework = Homework.find(params[:id])
     @homework.answers << Answer.new(content: params[:answer])
-    
+
     if @homework.save
       redirect_to homeworks_url, notice: 'Homework submitted'
     else
