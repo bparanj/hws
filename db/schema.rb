@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324185919) do
+ActiveRecord::Schema.define(version: 20170325191442) do
+
+  create_table "answers", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "homework_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "homeworks", force: :cascade do |t|
     t.string   "title"

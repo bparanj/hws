@@ -10,4 +10,12 @@ Iteration 2
 
 Student can see all assigned homework.
 
+Iteration 3
 
+Student can submit homework.
+
+
+
+
+
+How to detect image contents from Ruby with Amazon Rekognition
