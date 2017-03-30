@@ -1,15 +1,21 @@
 <h1> <%= @homework.title %> </h1>
 <p> <%= @homework.question %> </p>
 <p> User Name : <%= @user.name %> </p>
-<table>
- <tr>
+
+<% unless @submissions.empty? %>
+<table class="table table-striped">
+    <thead>
    <th>Answer ID</th>
    <th>Answer</th>
- </tr>
+    </thead>
+
  <% @submissions.each do |submission| %>
    <tr>
      <td> <%= submission.id %> </td>
      <td> <%= submission.answer %> </td>
    </tr>
  <% end %>
+
  </table>
+ 
+ <% end %>

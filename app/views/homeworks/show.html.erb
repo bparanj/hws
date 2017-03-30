@@ -4,14 +4,15 @@
 
   Question : <%= @homework.question %>
 
-  <p>
-    My Answer :
-  </p>
 
   <%= form_tag homeworks_url do %>
-    <%= text_area_tag 'answer', nil, rows: 10, cols: 100 %> <br/>
+  <div class="form-group">
+      <label for="exampleTextarea">My Answer: </label>
+      <%= text_area_tag 'answer', nil, rows: 10, cols: 100, class: 'form-control' %> 
+    </div>
+    
     <%= hidden_field_tag 'id', @homework.id %>
-    <%= submit_tag 'Submit' %>
+    <%= submit_tag 'Submit', class: 'btn btn-primary' %>
   <% end %>
 
 <% else %>
@@ -19,12 +20,13 @@
  <h1> <%= @homework.title %> </h1>
 
  <p> <%= @homework.question %> </p>
- <table>
-   <tr>
+
+  <table class="table table-striped">
+    <thead>
      <th>Username</th>
      <th>Latest Answer</th>
-   </tr>
-
+    </thead>
+    
    <% @users.each do |user| %>
      <tr>
        <td> <%= link_to user.name, submission_url(@homework.id, user.id) %> </td>

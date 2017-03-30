@@ -1,28 +1,49 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
     <title>Hws</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
-    <div id="container">
-      <%= link_to 'Home', root_url %> | <%= link_to 'HomeWork', root_url %> |
-
-      <% if session[:user_id].nil? %>
-       <%= link_to 'Login', new_session_url %> 
-      <% else %>
-        <%= link_to 'Logout', logout_path %>
-      <% end %> 
-
-      | <%= logged_in_user %>
+  
+  <body>
+    
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="/">Home</a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <% if session[:user_id].nil? %>
+          <li class="nav-item active">
+            <%= link_to 'Login', new_session_url, class: 'nav-link' %>
+          </li>
+          <% else %>
+          <li class="nav-item">
+            <%= link_to 'Logout', logout_path, class: 'nav-link' %>
+          </li>
+          
+          <% end %>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#"> <%= logged_in_user %> </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+        
+    <div class="container">
 
       <% flash.each do |name, msg| %>
-        <%= content_tag :div, msg, :id => "flash_#{name}" %>
+        <%= content_tag :div, msg, class: "alert alert-info" %>
       <% end %>
       <%= yield %>
     </div>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </body>
 
 </html>
