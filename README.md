@@ -16,6 +16,39 @@ Student can submit homework.
 
 Iteration 4
 
-Teacher can view 
+Teacher can view the latest submissions for homeworks
 
-How to detect image contents from Ruby with Amazon Rekognition
+
+
+
+SELECT ARTICLES.TITLE,
+       COMMENTS.DETAILS
+FROM ARTICLES INNER JOIN
+  (
+    SELECT ARTICLE_ID, 
+           MAX(DATE_COMMENTED) LATEST_COMMENT_DATE
+    FROM COMMENTS
+    GROUP BY ARTICLE_ID
+  ) LATEST_COMMENTS on ARTICLES.ID = LATEST_COMMENTS.ARTICLE_ID INNER JOIN
+    COMMENTS ON LATEST_COMMENTS.ARTICLE_ID = COMMENTS.ARTICLE_ID AND
+                LATEST_COMMENTS.LATEST_COMMENT_DATE = COMMENTS.DATE_COMMENTED ;
+
+
+SELECT             
+
+
+  create_table "answers", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "homework_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "homeworks", force: :cascade do |t|
+    t.string   "title"
+    t.string   "question"
+    t.date     "due_date"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end

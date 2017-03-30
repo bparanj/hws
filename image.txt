@@ -1,0 +1,109 @@
+How to detect image contents from Ruby with Amazon Rekognition
+
+https://hackernoon.com/building-a-face-recognition-web-app-in-under-an-hour-345aa91487c#.ql5z7tg11
+
+
+
+
+Association : User has many books
+
+Query : Get the most recent book.
+
+SELECT   users.*
+FROM     users
+         INNER JOIN books on books.user_id = users.id
+WHERE    books.created_on = ( SELECT  MAX(books.created_on)
+                              FROM    books
+                              WHERE   books.user_id = users.id)
+GROUP BY users.id
+
+
+
+1. Where is the image stored. Peter Cooper example is run locally, image is stored in the current directory.
+2. Rekognition can directly process images stored in Amazon Simple Storage Service (S3). In fact, you can use AWS Lambda functions to process newly uploaded photos at any desired scale. 
+Sample code that shows how to use images stored in S3 to create the lables.
+
+http://docs.aws.amazon.com/sdkforruby/api/Aws/Rekognition/Client.html#detect_labels-instance_method
+
+3. 
+
+
+https://aws.amazon.com/blogs/aws/amazon-rekognition-image-detection-and-recognition-powered-by-deep-learning/
+
+
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=[put that key here]
+AWS_SECRET_ACCESS_KEY=[and the other one here]
+
+Gemfile
+
+source 'https://rubygems.org'
+
+gem 'aws-sdk'
+
+Simple Program
+
+require 'aws-sdk'
+client = Aws::Rekognition::Client.new
+resp = client.detect_labels(
+         image: { bytes: File.read(ARGV.first) }
+       )
+resp.labels.each do |label|
+  puts "#{label.name}-#{label.confidence.to_i}"
+end
+
+ruby detect.rb myimage.jpg
+
+
+
+
+Another example:
+
+#for loading env variables
+require 'dotenv'
+Dotenv.load
+require 'aws-sdk'
+
+Aws.config.update({
+  region: ENV['AWS_REGION'],
+  credentials: Aws::Credentials.new(ENV['ACCESS_KEY_ID'], ENV['SECRET_ACCESS_KEY'])
+})
+
+
+
+begin
+  rekognition = Aws::Rekognition::Client.new(region: Aws.config[:region], credentials: Aws.config[:credentials])
+  
+  if ARGV.length < 1
+    abort( "Please give an image file name as argument and try again")
+  else  
+    img = File.read(ARGV.first)     
+  end
+    
+  #detect faces  
+  resp = rekognition.detect_faces({
+    image: {
+      bytes: img 
+    },
+    attributes: ["ALL"], # What attributes to return
+  })
+  
+  resp.face_details[0].emotions.each do |emo|
+    puts emo.type + " " + emo.confidence.to_i.to_s #=> Strings "HAPPY", "SAD", "ANGRY", "CONFUSED", "DISGUSTED", "SURPRISED", "CALM", "UNKNOWN"
+  end
+  
+  
+  #get labels of image
+  resp = rekognition.detect_labels(
+    image: { 
+      bytes: img 
+    }
+  )
+    
+  resp.labels.each do |lb|
+    puts "#{lb.name} #{lb.confidence.to_i}"
+  end
+  
+rescue Aws::Rekognition::Errors::ServiceError => e
+    puts e.message
+end

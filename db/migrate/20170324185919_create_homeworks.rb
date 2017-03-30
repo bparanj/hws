@@ -4,7 +4,6 @@ class CreateHomeworks < ActiveRecord::Migration[5.0]
       t.string :title
       t.string :question
       t.date :due_date
-      t.integer :user_id
 
       t.timestamps
     end

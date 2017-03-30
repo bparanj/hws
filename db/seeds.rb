@@ -1,8 +1,8 @@
 User.destroy_all
 
 bugs = User.create(name: 'Bugs')
-User.create(name: 'Daffy')
-User.create(name: 'Porky')
+daffy = User.create(name: 'Daffy')
+porky = User.create(name: 'Porky')
 mickey = User.create(name: 'Mickey', teacher: true)
 User.create(name: 'Tweety')
 User.create(name: 'Elmer')
@@ -20,3 +20,17 @@ bugs.homeworks << hw3
 bugs.homeworks << hw4
 
 bugs.save!
+
+daffy.homeworks << hw1
+daffy.homeworks << hw2
+daffy.homeworks << hw3
+daffy.homeworks << hw4
+
+daffy.save!
+
+porky.homeworks << hw1
+porky.homeworks << hw2
+porky.homeworks << hw3
+porky.homeworks << hw4
+
+porky.save!

@@ -1,4 +1,9 @@
-<% if @user && @user.student? %>
+<% if @homeworks.empty? %>
+
+<br/>
+No homework. Go to Disneyland.
+
+<% else %>
 
 <h1>Homework</h1>
 
