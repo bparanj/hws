@@ -10,12 +10,13 @@ module ApplicationHelper
   
   def recent_answer(homework_id, user_id)
     answer = ''
-    assignment = Assignment.where(homework_id: homework_id).where(user_id: user_id).first
-    answer = if assignment
+    assignment = Assignment.get(homework_id, user_id)
+    if assignment
       recent_submission = assignment.submissions.last
       if recent_submission
-        recent_submission.answer
+        answer = recent_submission.answer
       end
     end
+    answer
   end
 end

@@ -18,7 +18,7 @@ class HomeworksController < ApplicationController
   end
   
   def create
-    @assignment = Assignment.where('homework_id = ?', params[:id]).where("user_id = #{session[:user_id]}").first
+    @assignment = Assignment.get(params[:id], session[:user_id])
     @assignment.submissions << Submission.new(answer: params[:answer])
     
     if @assignment.save
@@ -31,7 +31,7 @@ class HomeworksController < ApplicationController
   def submission
     @homework = Homework.find(params[:homework_id])
     @user = User.find(params[:user_id])
-    @assignment = Assignment.where('homework_id = ?', params[:homework_id]).where("user_id = ?", params[:user_id]).first
+    @assignment = Assignment.get(params[:homework_id], params[:user_id])
     
     if @assignment
       @submissions = @assignment.submissions
